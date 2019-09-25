@@ -1,0 +1,23 @@
+version: '3'
+services:
+  docker-mysql:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=root
+    ports:
+      - "3306:3306"
+    container_name: mysql
+  micro-product:
+    build:
+      context: ./microservice-produits
+    image: micro-product
+    depends_on:
+      - docker-mysql
+    ports:
+      - "7832:7832"
+    environment:
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=root
+      - DATABASE_NAME=store
+    container_name: micro_product
